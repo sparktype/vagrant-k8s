@@ -1,13 +1,10 @@
 
-# Vagrantfile and Scripts to Automate Kubernetes with Cilium setup using Kubeadm
-
-The purpose of this repo is to create a demo/verification environment for Kubernetes with Cilium on Apple Silicon Macs with Darwin OS. It leverages Vagrant and Parallels as a virtual machine host provider.
+# Vagrantfile and Scripts to Automate Kubernetes
 
 This repo is based on the work found in:
  * https://github.com/ahmadjubair33/vagrant-kubernetes
  * https://computingforgeeks.com/install-kubernetes-cluster-ubuntu-jammy/
  * https://app.vagrantup.com/jharoian3/boxes/ubuntu-22.04-arm64
-
 
 ## Preparation
 
