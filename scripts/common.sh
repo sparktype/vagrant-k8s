@@ -12,7 +12,7 @@ echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://a
 
 # Install the kubelet, kubectl and kubeadm
 sudo apt-get update
-sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-get install -y kubelet kubeadm kubectl cri-tools
 sudo apt-mark hold kubelet kubeadm kubectl
 
 # Get rid of the swap
@@ -24,6 +24,14 @@ free -h
 sudo tee /etc/modules-load.d/containerd.conf <<EOF
 overlay
 br_netfilter
+EOF
+
+# Configure crictl
+sudo tee /etc/crictl.yaml<<EOF
+runtime-endpoint: unix:///run/containerd/containerd.sock
+image-endpoint: unix:///run/containerd/containerd.sock
+timeout: 10
+debug: false
 EOF
 
 # Configure the needed modules and persist them
@@ -44,6 +52,7 @@ lsmod | grep overlay
 
 # Add Docker repo
 sudo install -m 0755 -d /etc/apt/keyrings
+
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 echo \
@@ -53,7 +62,14 @@ echo \
 
 # Install containerd
 sudo apt update
-sudo apt install -y containerd.io
+
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove $pkg; done
+
+sudo apt-get install -y ca-certificates curl gnupg
+
+sudo apt-get update
+
+sudo apt-get install -y containerd.io
 
 # Configure containerd and start the service
 sudo mkdir -p /etc/containerd
@@ -64,4 +80,3 @@ sudo sed -i 's/            SystemdCgroup = false/            SystemdCgroup = tru
 sudo systemctl restart containerd
 sudo systemctl enable containerd
 sudo systemctl enable kubelet
-

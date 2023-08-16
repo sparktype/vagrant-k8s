@@ -11,8 +11,8 @@ Vagrant.configure("2") do |config|
 #         echo "$IP_NW$((IP_START+1))  worker-node01" >> /etc/hosts
 #         echo "$IP_NW$((IP_START+2))  worker-node02" >> /etc/hosts
     SHELL
-#     config.vm.box = "sparktype/ubuntu-22.04-arm64"
-    config.vm.box = "bento/ubuntu-22.04-arm64"
+    config.vm.box = "sparktype/ubuntu-22.04-arm64"
+    config.vm.box_version = "2023.08.15"
     config.vm.box_check_update = true
 
     config.vm.define "master" do |master|
@@ -37,7 +37,7 @@ Vagrant.configure("2") do |config|
       config.vm.define "node0#{i}" do |node|
         node.vm.hostname = "worker-node0#{i}"
         node.vm.network "private_network", ip: IP_NW + "#{IP_START + i}"
-        
+
         node.vm.provider "parallels" do |vb|
             vb.memory = 8196
             vb.cpus = 2
