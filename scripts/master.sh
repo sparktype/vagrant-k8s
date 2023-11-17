@@ -3,7 +3,7 @@
 MASTER_IP="10.1.0.10"
 NODENAME=$(hostname -s)
 POD_CIDR="192.168.0.0/16"
-KUBERNETES_VERSION="1.28.0"
+KUBERNETES_VERSION="1.28.4"
 CILIUM_VERSION="1.14.0"
 
 # Pull the kubernetes images

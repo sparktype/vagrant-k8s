@@ -7,12 +7,9 @@ ENV['VAGRANT_NO_PARALLEL'] = 'yes'
 Vagrant.configure("2") do |config|
     config.vm.provision "shell", inline: <<-SHELL
         apt-get update -y
-#         echo "$IP_NW$((IP_START))  master-node" >> /etc/hosts
-#         echo "$IP_NW$((IP_START+1))  worker-node01" >> /etc/hosts
-#         echo "$IP_NW$((IP_START+2))  worker-node02" >> /etc/hosts
     SHELL
-    config.vm.box = "sparktype/ubuntu-22.04-arm64"
-    config.vm.box_version = "2023.08.15"
+    config.vm.box = "bento/ubuntu-20.04-arm64"
+    config.vm.box_version = "202306.30.0"
     config.vm.box_check_update = true
 
     config.vm.define "master" do |master|
